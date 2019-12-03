@@ -30,12 +30,11 @@ const Join = () => {
           />
         </div>
         <Link
-          // you can't login if you haven't input name or room
-          onClick={event => (!name || !room ? event.preventDefault() : null)}
+          onClick={e => (!name || !room ? e.preventDefault() : null)}
           to={`/chat?name=${name}&room=${room}`}
         >
-          <button className="button mt-20" type="submit">
-            Sign into the chatroom
+          <button className={"button mt-20"} type="submit">
+            Sign In
           </button>
         </Link>
       </div>
