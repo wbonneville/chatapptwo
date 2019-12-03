@@ -5,7 +5,6 @@ const http = require("http");
 const PORT = process.env.PORT || 5000;
 
 // require router
-
 const router = require("./router");
 
 // sockets are good for real-time
