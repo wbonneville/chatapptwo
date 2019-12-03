@@ -18,6 +18,15 @@ const server = http.createServer(app);
 // pass server
 const io = socketio(server);
 
+// specific socket that joins server
+io.on("connection", socket => {
+  console.log("We have a new connection");
+
+  socket.on("disconnect", () => {
+    console.log("User has left.");
+  });
+});
+
 app.use(router);
 
 server.listen(PORT, () => console.log(`server has started on port ${PORT}`));
