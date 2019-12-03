@@ -34,7 +34,7 @@ const Join = () => {
           to={`/chat?name=${name}&room=${room}`}
         >
           <button className={"button mt-20"} type="submit">
-            Sign In
+            Sign Into the Chatroom
           </button>
         </Link>
       </div>
