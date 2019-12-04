@@ -30,11 +30,31 @@ io.on("connection", socket => {
     // if there is an error, function will stop: the callback is returned immediately
     if (error) return callback(error);
 
+    // admin generated messages
+
+    socket.emit("message", {
+      user: "admin",
+      text: `${user.name}, welcocome to the room ${user.room}`
+    });
+
+    socket.broadcast
+      .to(user.room)
+      .emit("message", { user: "admin", text: `${user.name} has joined` });
+
     // if no errors
     // user is finally in the room
     socket.join(user.room);
 
-    // trigger response immediately after socket.on event is emitted
+    callback();
+  });
+
+  // backend is now expecting an event from frontend
+  socket.on("sendMessage", (message, callback) => {
+    const user = getUser(socket.id);
+
+    io.to(user.room).emit("message", { user: user.name, text: message });
+
+    callback();
   });
 
   socket.on("disconnect", () => {

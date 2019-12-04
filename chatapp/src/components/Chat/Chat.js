@@ -7,6 +7,9 @@ let socket;
 const Chat = ({ location }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+
   const ENDPOINT = "localhost:5000";
 
   // useEffect runs when the component renders
@@ -30,6 +33,17 @@ const Chat = ({ location }) => {
     };
     // re-render useEffet only if these two values change
   }, [ENDPOINT, location.search]);
+
+  useEffect(() => {
+    // listen for messages
+    socket.on("message", message => {
+      // use spread operator
+      // add one message into array of messages
+      // adding all messages to messages array
+      setMessages([...messages, message]);
+    });
+    // only run useEffect when messages array changes
+  }, [messages]);
 
   return <h1>Chat</h1>;
 };
