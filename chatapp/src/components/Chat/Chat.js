@@ -21,7 +21,9 @@ const Chat = ({ location }) => {
     setName(name);
     setRoom(room);
 
-    socket.emit("join", { name, room });
+    socket.emit("join", { name, room }, ({ error }) => {
+      alert(error);
+    });
 
     // re-render useEffet only if these two values change
   }, [ENDPOINT, location.search]);
