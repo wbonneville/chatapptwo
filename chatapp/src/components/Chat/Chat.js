@@ -31,7 +31,7 @@ const Chat = ({ location }) => {
 
       socket.off();
     };
-    // re-render useEffet only if these two values change
+    // re-render useEffect only if these two values change
   }, [ENDPOINT, location.search]);
 
   useEffect(() => {
@@ -45,7 +45,37 @@ const Chat = ({ location }) => {
     // only run useEffect when messages array changes
   }, [messages]);
 
-  return <h1>Chat</h1>;
+  // create a function for sending messages
+
+  const sendMessage = event => {
+    // don't refresh the whole page
+    event.preventDefault();
+    // emit listener is in index.js
+    // emit listener listens for the sendMessage event
+    // sends message to server
+
+    if (message) {
+      // when you send a message
+      // the message field returns to empty string
+      socket.emit("sendMessage", message, () => setMessage(""));
+    }
+  };
+
+  console.log(message, messages);
+
+  return (
+    <div className="outerContainer">
+      <div className="container">
+        <input
+          value={message}
+          onChange={event => setMessage(event.target.value)}
+          onKeyPress={event =>
+            event.key === "Enter" ? sendMessage(event) : null
+          }
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Chat;

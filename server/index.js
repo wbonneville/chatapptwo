@@ -1,13 +1,13 @@
 const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
+const cors = require("cors");
 
 // user functions
 
-const { addUser, removeUser, getUser, getUsersInRoom } = "./users.js";
+const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
 
 const PORT = process.env.PORT || 5000;
-
 // require router
 const router = require("./router");
 
@@ -21,20 +21,22 @@ const server = http.createServer(app);
 // pass server
 const io = socketio(server);
 
+app.use(cors());
+app.use(router);
+
 // specific socket that joins server
-io.on("connection", socket => {
+io.on("connect", socket => {
   socket.on("join", ({ name, room }, callback) => {
     // addUser can only return two arguments: error and user
     const { error, user } = addUser({ id: socket.id, name, room });
-
     // if there is an error, function will stop: the callback is returned immediately
     if (error) return callback(error);
+    socket.join(user.room);
 
     // admin generated messages
-
     socket.emit("message", {
       user: "admin",
-      text: `${user.name}, welcocome to the room ${user.room}`
+      text: `${user.name}, welcome to the room ${user.room}`
     });
 
     socket.broadcast
@@ -43,7 +45,6 @@ io.on("connection", socket => {
 
     // if no errors
     // user is finally in the room
-    socket.join(user.room);
 
     callback();
   });
@@ -64,4 +65,6 @@ io.on("connection", socket => {
 
 app.use(router);
 
-server.listen(PORT, () => console.log(`server has started on port ${PORT}`));
+server.listen(process.env.PORT || 5000, () =>
+  console.log(`Server has started.`)
+);
