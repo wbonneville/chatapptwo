@@ -1,5 +1,5 @@
 # chatapptwo
-Realtime Chat Application -- Live chat app created with React, Express, Node and Socket.IO 
+Realtime Chat Application -- Live chat app created with React, Express, Node and Socket.IO. Server hosted on Heroku. Front-end hosted with Netlify
 
 This application is Adrian Hajdins. 
 
