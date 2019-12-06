@@ -31,7 +31,7 @@ const TextContainer = ({ users }) => (
         <h1>People currently chatting:</h1>
         <div className="activeContainer">
           <h2>
-            {/* destructure name */}
+            {/* destructure name from user */}
             {users.map(({ name }) => (
               <div key={name} className="activeItem">
                 {name}
