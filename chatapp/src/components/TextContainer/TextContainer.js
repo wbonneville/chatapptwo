@@ -4,6 +4,7 @@ import onlineIcon from "../../icons/onlineIcon.png";
 
 import "./TextContainer.css";
 
+// recieve users prop
 const TextContainer = ({ users }) => (
   <div className="textContainer">
     <div>
@@ -32,6 +33,9 @@ const TextContainer = ({ users }) => (
         <div className="activeContainer">
           <h2>
             {/* destructure name from user */}
+            {/* map through users and list the names in a div */}
+            {/* the h2 only renders if there are users */}
+            {/* if there are no users, display nothing */}
             {users.map(({ name }) => (
               <div key={name} className="activeItem">
                 {name}

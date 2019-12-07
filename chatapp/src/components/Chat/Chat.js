@@ -49,25 +49,30 @@ const Chat = ({ location }) => {
     });
   }, [ENDPOINT, location.search]);
 
+  // useEffect hook for sockets
+  // setMessages array = to all messages + current message
   useEffect(() => {
     socket.on("message", message => {
       setMessages([...messages, message]);
     });
 
+    // setUsers = to users
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
 
     return () => {
       socket.emit("disconnect");
-
+      // returned when a user disconnects
       socket.off();
     };
   }, [messages]);
 
+  // when a message is typed into the input and sent, don't refresh the chatroom
   const sendMessage = event => {
     event.preventDefault();
 
+    // emit the message
     if (message) {
       socket.emit("sendMessage", message, () => setMessage(""));
     }
@@ -76,14 +81,18 @@ const Chat = ({ location }) => {
   return (
     <div className="outerContainer">
       <div className="container">
+        {/* set room prop = to room */}
         <InfoBar room={room} />
+        {/* set messages prop = to messages and name = to name */}
         <Messages messages={messages} name={name} />
+        {/* set input props */}
         <Input
           message={message}
           setMessage={setMessage}
           sendMessage={sendMessage}
         />
       </div>
+      {/* user prop */}
       <TextContainer users={users} />
     </div>
   );
