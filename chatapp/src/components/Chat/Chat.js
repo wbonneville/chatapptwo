@@ -1,3 +1,5 @@
+// imports
+
 import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
@@ -9,7 +11,14 @@ import Input from "../Input/Input";
 
 import "./Chat.css";
 
+// initialize socket
+
 let socket;
+
+// useState hooks for the functional component
+// better than class components
+// more versatile
+// easy
 
 const Chat = ({ location }) => {
   const [name, setName] = useState("");
@@ -17,13 +26,19 @@ const Chat = ({ location }) => {
   const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  // server is hosted on heroku
   const ENDPOINT = "https://wesleyslivechat.herokuapp.com/";
 
+  // useEffect runs only when name and room are set
+
   useEffect(() => {
+    // location is built into react-router
+    // name and room are pulled out of the url
     const { name, room } = queryString.parse(location.search);
 
     socket = io(ENDPOINT);
 
+    // setRoom and setName are functions which change the state of room and name
     setRoom(room);
     setName(name);
 
